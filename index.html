@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b16">
+<title>اختبار سرعة الكتابة بالعربي</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#070b16;
+  --panel:rgba(14,20,36,.88);
+  --panel2:rgba(20,28,48,.72);
+  --line:rgba(148,163,184,.16);
+  --text:#f8fafc;
+  --muted:#8fa0b8;
+  --dim:#4e5d73;
+  --cyan:#22d3ee;
+  --blue:#60a5fa;
+  --purple:#a78bfa;
+  --pink:#f472b6;
+  --green:#34d399;
+  --red:#fb7185;
+  --yellow:#fbbf24;
+  --shadow:0 28px 80px rgba(0,0,0,.42);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
+body{
+  font-family:Cairo,Tahoma,Arial,sans-serif;
+  overflow-x:hidden;
+}
+body:before,body:after{
+  content:"";position:fixed;inset:auto;pointer-events:none;z-index:-1;
+  width:42vw;height:42vw;border-radius:50%;filter:blur(80px);opacity:.16;
+}
+body:before{background:#2563eb;top:-15vw;right:-10vw}
+body:after{background:#d946ef;bottom:-18vw;left:-12vw}
+
+.app{width:min(1240px,calc(100% - 28px));margin:0 auto;padding:28px 0 46px}
+.header{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  margin-bottom:22px;
+}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{
+  width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  color:#07111d;font-size:24px;font-weight:800;box-shadow:0 10px 32px rgba(34,211,238,.22)
+}
+h1{font-size:clamp(20px,3vw,30px);margin:0;font-weight:800;letter-spacing:-.5px}
+.subtitle{color:var(--muted);font-size:13px;margin-top:3px}
+
+.card{
+  background:linear-gradient(145deg,rgba(20,28,48,.92),rgba(10,15,28,.91));
+  border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);
+  backdrop-filter:blur(16px);overflow:hidden;
+}
+.toolbar{padding:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;border-bottom:1px solid var(--line)}
+.group{display:flex;gap:8px;flex-wrap:wrap}
+.label{font-size:12px;color:var(--muted);align-self:center;margin-left:3px}
+button{
+  font:inherit;border:1px solid var(--line);color:#dce6f4;background:rgba(255,255,255,.035);
+  padding:9px 15px;border-radius:12px;cursor:pointer;transition:.18s transform,.18s background,.18s border-color;
+}
+button:hover{transform:translateY(-1px);background:rgba(255,255,255,.075)}
+button.active{color:#07111d;border-color:transparent;background:linear-gradient(135deg,var(--cyan),var(--blue));font-weight:800}
+button.primary{border:0;color:#06111a;background:linear-gradient(135deg,var(--green),var(--cyan));font-weight:800}
+.spacer{flex:1}
+
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px;
+}
+.stat{
+  min-height:92px;padding:15px 16px;border:1px solid var(--line);border-radius:18px;
+  background:rgba(255,255,255,.025);position:relative;overflow:hidden;
+}
+.stat:before{content:"";position:absolute;right:0;top:0;width:38px;height:38px;border-radius:0 18px 0 30px;opacity:.16}
+.stat:nth-child(1):before{background:var(--cyan)}
+.stat:nth-child(2):before{background:var(--purple)}
+.stat:nth-child(3):before{background:var(--pink)}
+.stat:nth-child(4):before{background:var(--green)}
+.stat .k{color:var(--muted);font-size:12px}
+.stat .v{font-size:25px;font-weight:800;margin-top:4px;direction:ltr;text-align:right}
+.stat .v small{font-size:13px;color:var(--muted);font-weight:600}
+
+.progress-wrap{padding:0 16px 4px}
+.progress{height:7px;border-radius:99px;background:#121a2b;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple),var(--pink));border-radius:inherit;transition:width .15s linear}
+
+.text-head{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 9px;color:var(--muted);font-size:12px}
+#wordCount{direction:rtl}
+
+.textbox{
+  margin:0 16px 16px;padding:25px 24px;min-height:245px;
+  border:1px solid rgba(148,163,184,.17);border-radius:20px;
+  background:#080e1c;
+  font-size:clamp(20px,2.25vw,29px);
+  line-height:2.05;
+  font-weight:500;
+  text-align:right;direction:rtl;
+  color:var(--dim);
+  overflow:hidden;
+  user-select:none;
+}
+.word{
+  position:relative;
+  display:inline-block;
+  white-space:pre;
+  color:#52627a;
+  vertical-align:baseline;
+  border-radius:5px;
+}
+.word.correct{color:#e2e8f0}
+.word.current{color:#fff}
+.word .error-layer{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  color:var(--red);
+  font:inherit;
+  line-height:inherit;
+  white-space:pre;
+  direction:rtl;
+  overflow:visible;
+}
+.word .char-error{
+  position:absolute;
+  z-index:4;
+  pointer-events:none;
+  background:rgba(251,113,133,.17);
+  box-shadow:0 0 0 1px rgba(251,113,133,.24),0 0 18px rgba(251,113,133,.18);
+  border-radius:4px;
+}
+.char-caret{
+  position:absolute;z-index:6;pointer-events:none;
+  width:3px;border-radius:9px;background:var(--cyan);
+  box-shadow:0 0 13px rgba(34,211,238,.85);
+  animation:blink 1s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:.35}}
+
+.input-zone{padding:0 16px 16px}
+#input{
+  width:100%;min-height:92px;resize:vertical;
+  border:1px solid rgba(96,165,250,.28);outline:none;border-radius:20px;
+  padding:18px 20px;background:#060b16;color:#fff;
+  font:500 20px/1.9 Cairo,Tahoma,Arial,sans-serif;
+  direction:rtl;text-align:right;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.015);
+}
+#input:focus{border-color:rgba(34,211,238,.62);box-shadow:0 0 0 4px rgba(34,211,238,.08)}
+#input::placeholder{color:#4e5d73}
+.hint{font-size:12px;color:var(--muted);margin-top:8px}
+
+.result{
+  display:none;margin:0 16px 16px;padding:18px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(167,139,250,.09));
+  border:1px solid var(--line);
+}
+.result.show{display:block}
+.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.result-item{text-align:center;padding:12px;background:rgba(0,0,0,.13);border-radius:14px}
+.result-item b{display:block;font-size:22px}
+.result-item span{font-size:11px;color:var(--muted)}
+
+.footer{text-align:center;color:#516078;font-size:11px;margin-top:15px}
+
+@media(max-width:800px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .result-grid{grid-template-columns:repeat(2,1fr)}
+  .app{width:min(100% - 16px,1240px);padding-top:12px}
+  .header{margin-bottom:12px}
+  .toolbar{padding:12px}
+  .textbox{margin:0 10px 10px;padding:20px 17px;min-height:220px}
+  .input-zone{padding:0 10px 10px}
+  .text-head{padding:14px 12px 8px}
+}
+@media(max-width:470px){
+  .brand .subtitle{display:none}
+  .logo{width:42px;height:42px}
+  .stats{gap:8px;padding:10px}
+  .stat{min-height:78px;padding:11px}
+  .stat .v{font-size:21px}
+  button{padding:8px 11px}
+  .textbox{font-size:20px;line-height:2.05}
+}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="header">
+    <div class="brand">
+      <div class="logo">ع</div>
+      <div>
+        <h1>اختبار سرعة الكتابة بالعربي</h1>
+        <div class="subtitle">حروف عربية متصلة، مؤشر حرفي، وتصحيح فوري بدون كسر تشكيل الكلمات</div>
+      </div>
+    </div>
+    <button id="newText" class="primary">نص مختلف ↻</button>
+  </header>
+
+  <section class="card">
+    <div class="toolbar">
+      <span class="label">المدة</span>
+      <div class="group" id="durations">
+        <button data-sec="60" class="active">1 دقيقة</button>
+        <button data-sec="180">3 دقائق</button>
+        <button data-sec="300">5 دقائق</button>
+      </div>
+      <span class="spacer"></span>
+      <button id="reset">إعادة الاختبار</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="k">الوقت المتبقي</div><div class="v" id="time">01:00</div></div>
+      <div class="stat"><div class="k">السرعة الحالية</div><div class="v" id="wpm">0 <small>WPM</small></div></div>
+      <div class="stat"><div class="k">الدقة</div><div class="v" id="accuracy">100%</div></div>
+      <div class="stat"><div class="k">الأخطاء</div><div class="v" id="errors">0</div></div>
+    </div>
+
+    <div class="progress-wrap"><div class="progress"><i id="progress"></i></div></div>
+
+    <div class="text-head">
+      <span>النص</span><span id="wordCount">0 كلمة</span>
+    </div>
+
+    <div id="text" class="textbox" aria-label="النص المطلوب كتابته"></div>
+
+    <div class="input-zone">
+      <textarea id="input" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"
+        placeholder="ابدأ بالكتابة هنا..."></textarea>
+      <div class="hint">يبدأ المؤقت مع أول حرف. الخطأ يظهر فورًا عند كتابة الحرف نفسه.</div>
+    </div>
+
+    <div id="result" class="result">
+      <div class="result-grid">
+        <div class="result-item"><b id="rWpm">0</b><span>WPM</span></div>
+        <div class="result-item"><b id="rCpm">0</b><span>CPM</span></div>
+        <div class="result-item"><b id="rAcc">0%</b><span>الدقة</span></div>
+        <div class="result-item"><b id="rErr">0</b><span>الأخطاء</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">النصوص أصلية ومصممة للتدريب على الكتابة العربية.</div>
+</main>
+
+<script>
+"use strict";
+
+const TEXTS = [
+`في الدراسة الحديثة نكتب الملاحظات والملخصات والواجبات ونبحث في الإنترنت باستخدام لوحة المفاتيح بشكل متكرر. لذلك فإن تحسين هذه المهارة الصغيرة قد ينعكس على عدد كبير من المهام اليومية. عندما تقل الحاجة إلى البحث عن الحروف، يصبح من الأسهل تسجيل الأفكار بسرعة أثناء القراءة أو المحاضرة، كما يمكن تعديل النصوص وتنظيمها بصورة أكثر سلاسة. أفضل طريقة للتطور هي ممارسة نصوص جديدة باستمرار، والانتباه إلى الحروف التي تسبب أخطاء متكررة، ثم محاولة تحسينها من خلال الكتابة الهادئة والدقيقة.`,
+`تحتاج الكتابة السريعة إلى توازن بين السرعة والدقة، لأن زيادة عدد الكلمات لا تكون مفيدة إذا صاحبها عدد كبير من الأخطاء. في البداية من الأفضل التركيز على معرفة أماكن الحروف وحركة الأصابع، ثم زيادة السرعة تدريجيا مع المحافظة على النص الصحيح. ومع التدريب المنتظم تصبح الكلمات المألوفة أسرع، وتصبح عملية الانتقال بين الحروف أكثر طبيعية، ويقل الوقت الذي نقضيه في التوقف وتصحيح ما كتبناه.`,
+`تساعد التطبيقات الرقمية على تنظيم المعلومات والوصول إليها في وقت قصير، لكن الاستفادة منها تعتمد أيضا على قدرة المستخدم على إدخال النص والتعامل مع لوحة المفاتيح. ولهذا يمكن أن تكون اختبارات الكتابة القصيرة وسيلة بسيطة لملاحظة التقدم. لا تحتاج إلى كتابة فقرة طويلة كل مرة؛ يكفي أن تتدرب بهدوء، ثم تراجع السرعة والدقة وعدد الأخطاء، وتكرر التجربة بنص مختلف حتى لا تعتمد على حفظ الكلمات.`,
+`عندما نقرأ موضوعا جديدا تظهر في أذهاننا أفكار كثيرة، وقد تضيع بعض هذه الأفكار إذا احتجنا إلى وقت طويل لكتابتها. الكتابة السريعة لا تعني الاستعجال، بل تعني تقليل الحركات غير الضرورية مع المحافظة على الدقة. ومع مرور الوقت يبدأ العقل في التعرف إلى الكلمات الشائعة كوحدات متتابعة، فتنتقل الكتابة من البحث الواعي عن كل حرف إلى حركة أكثر تلقائية.`,
+`من المفيد أثناء التدريب أن تنتبه إلى الأخطاء المتكررة بدل محاولة زيادة السرعة فقط. إذا أخطأت في حرف معين عدة مرات، حاول أن تركز عليه في النص التالي. وإذا كانت المشكلة في مجموعة من الحروف المتجاورة، فكرر كلمات تحتوي عليها حتى تصبح الحركة أكثر ثباتا. بهذه الطريقة يتحول التدريب من مجرد اختبار للسرعة إلى وسيلة عملية لتحسين التحكم في لوحة المفاتيح.`,
+`اللغة العربية تحتوي على حروف تتصل بأشكال مختلفة بحسب موقعها في الكلمة، ولهذا يجب أن يكون عرض النص العربي صحيحا حتى يكون التدريب مفيدا. بعض التركيبات مثل لا ولأ ولإ تظهر بشكل متصل، وقد يتغير شكل الحرف بحسب الحروف المحيطة به. لذلك يجب أن نحافظ على تشكيل الكلمة أثناء عرض الاختبار، وفي الوقت نفسه نحتاج إلى معرفة الحرف الذي أخطأنا فيه مباشرة دون تشويه شكل الكلمة الأصلية.`,
+`الاستمرار لفترات قصيرة ومتكررة يمكن أن يجعل التدريب أكثر سهولة. اختر مدة مناسبة، ابدأ بنص لم تكتبه من قبل، وحاول أن تحافظ على إيقاع ثابت. إذا لاحظت أن السرعة ترتفع بينما تنخفض الدقة، فخفف الإيقاع قليلا. الهدف هو الوصول إلى كتابة مريحة تجمع بين السرعة والوضوح، وليس تسجيل رقم كبير مع الحاجة إلى تصحيح معظم الكلمات بعد الانتهاء.`,
+`في أثناء كتابة تقرير أو رسالة طويلة، تكون القدرة على الانتقال بين الأفكار بسرعة أمرا مفيدا. لوحة المفاتيح الجيدة وحدها لا تكفي؛ فمعرفة مواضع الحروف والتدرب على الانتقال بينها يقللان من التوقفات. ومع الممارسة يصبح من الأسهل كتابة الجمل العربية مع علامات الترقيم والمسافات، وتتحسن القدرة على التركيز في معنى النص بدلا من التفكير في مكان كل حرف.`
+];
+
+const $ = id => document.getElementById(id);
+let duration=60, text="", running=false, finished=false, startedAt=0, timerId=null;
+
+function formatTime(sec){
+  sec=Math.max(0,Math.ceil(sec));
+  return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");
+}
+function pickText(){
+  let next;
+  do next=TEXTS[Math.floor(Math.random()*TEXTS.length)];
+  while(TEXTS.length>1 && next===text);
+  text=next;
+  $("wordCount").textContent=(text.trim().split(/\s+/u).length)+" كلمة";
+}
+function reset(){
+  clearInterval(timerId);
+  running=false; finished=false; startedAt=0;
+  $("input").value="";
+  $("result").classList.remove("show");
+  $("time").textContent=formatTime(duration);
+  $("wpm").innerHTML='0 <small>WPM</small>';
+  $("accuracy").textContent="100%";
+  $("errors").textContent="0";
+  $("progress").style.width="0%";
+  pickText();
+  render();
+}
+function metrics(v){
+  const n=Math.min(v.length,text.length);
+  let correct=0;
+  for(let i=0;i<n;i++) if(v[i]===text[i]) correct++;
+  const wrong=n-correct;
+  const elapsed=Math.max(.001, running ? (Date.now()-startedAt)/1000 : (duration*1.0));
+  const minutes=Math.max(1/60,elapsed/60);
+  return {
+    correct, wrong, typed:n,
+    wpm:Math.round(correct/5/minutes),
+    cpm:Math.round(correct/minutes),
+    acc:n?Math.round(correct/n*100):100
+  };
+}
+function start(){
+  if(running || finished) return;
+  running=true;
+  startedAt=Date.now();
+  timerId=setInterval(tick,80);
+}
+function tick(){
+  if(!running) return;
+  const left=duration-(Date.now()-startedAt)/1000;
+  $("time").textContent=formatTime(left);
+  $("progress").style.width=Math.min(100,Math.max(0,(1-left/duration)*100))+"%";
+  updateStats($("input").value);
+  if(left<=0) finish();
+}
+function updateStats(v){
+  const m=metrics(v);
+  $("wpm").innerHTML=m.wpm+' <small>WPM</small>';
+  $("accuracy").textContent=m.acc+"%";
+  $("errors").textContent=m.wrong;
+}
+function finish(){
+  if(finished) return;
+  finished=true; running=false;
+  clearInterval(timerId);
+  $("time").textContent="00:00";
+  $("progress").style.width="100%";
+  const m=metrics($("input").value);
+  $("rWpm").textContent=m.wpm;
+  $("rCpm").textContent=m.cpm;
+  $("rAcc").textContent=m.acc+"%";
+  $("rErr").textContent=m.wrong;
+  $("result").classList.add("show");
+  render();
+}
+
+/* ---------- Arabic-safe rendering ---------- */
+
+function makeWordRuns(){
+  const box=$("text");
+  box.innerHTML="";
+  const tokens=[...text.matchAll(/\S+\s*/gu)];
+  let pos=0;
+  for(const m of tokens){
+    const word=m[0], start=pos, end=start+word.length;
+    const el=document.createElement("span");
+    el.className="word";
+    el.dataset.start=start;
+    el.dataset.end=end;
+    el.textContent=word;
+    box.appendChild(el);
+    pos=end;
+  }
+}
+function findPosition(root,index){
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  let left=index;
+  while(walker.nextNode()){
+    const node=walker.currentNode;
+    if(left<=node.nodeValue.length) return {node,offset:left};
+    left-=node.nodeValue.length;
+  }
+  return null;
+}
+function rangeForChar(root,index){
+  const p=findPosition(root,index);
+  if(!p) return null;
+  const r=document.createRange();
+  r.setStart(p.node,p.offset);
+  r.setEnd(p.node,Math.min(p.offset+1,p.node.nodeValue.length));
+  return r;
+}
+function wordAt(index){
+  return [...$("text").querySelectorAll(".word")]
+    .find(w=>index>=+w.dataset.start && index<+w.dataset.end);
+}
+function render(){
+  makeWordRuns();
+  const v=$("input").value;
+  const words=[...$("text").querySelectorAll(".word")];
+
+  for(const w of words){
+    const a=+w.dataset.start,b=+w.dataset.end;
+    const typed=Math.max(0,Math.min(v.length,b)-a);
+    w.classList.toggle("correct",typed>0 && v.slice(a,a+typed)===text.slice(a,a+typed));
+    w.classList.toggle("current",v.length>=a && v.length<b && !finished);
+  }
+
+  // Per-character error overlays live INSIDE their word. They are absolutely
+  // positioned duplicates of the same word and clipped to the actual glyph
+  // rectangle. The base text remains untouched, so Arabic joining stays intact.
+  for(let i=0;i<Math.min(v.length,text.length);i++){
+    if(v[i]===text[i]) continue;
+    const w=wordAt(i);
+    if(!w) continue;
+    const range=rangeForChar(w,i-+w.dataset.start);
+    if(!range) continue;
+    const rects=[...range.getClientRects()];
+    const wr=w.getBoundingClientRect();
+
+    for(const r of rects){
+      if(r.width<=0 && r.height<=0) continue;
+      const x=r.left-wr.left, y=r.top-wr.top;
+      const ew=r.width, eh=r.height;
+
+      const red=document.createElement("span");
+      red.className="error-layer";
+      // Read ONLY the original base text node. Never use w.textContent here,
+      // because w may already contain another error overlay.
+      red.textContent=w.firstChild && w.firstChild.nodeType===Node.TEXT_NODE
+        ? w.firstChild.nodeValue
+        : "";
+      red.style.clipPath=`polygon(${x}px ${y}px,${x+ew}px ${y}px,${x+ew}px ${y+eh}px,${x}px ${y+eh}px)`;
+      w.appendChild(red);
+
+      const bg=document.createElement("span");
+      bg.className="char-error";
+      bg.style.left=Math.max(0,x-2)+"px";
+      bg.style.top=Math.max(0,y)+"px";
+      bg.style.width=Math.max(3,ew+4)+"px";
+      bg.style.height=Math.max(12,eh)+"px";
+      w.appendChild(bg);
+    }
+  }
+
+  placeCaret(v.length);
+}
+function placeCaret(index){
+  const old=$("text").querySelector(".char-caret");
+  if(old) old.remove();
+  if(finished || index>=text.length) return;
+
+  const w=wordAt(index);
+  if(!w) return;
+  const range=rangeForChar(w,index-+w.dataset.start);
+  if(!range) return;
+
+  // IMPORTANT for Arabic RTL:
+  // The insertion point must be BEFORE the character visually, which is the
+  // RIGHT edge of that character's rendered rectangle. A collapsed Range at
+  // the character's logical start is not reliable for this because browsers
+  // can expose the bidi caret position on the opposite visual side.
+  const r=[...range.getClientRects()].find(x=>x.height>0);
+  if(!r) return;
+
+  const wr=w.getBoundingClientRect();
+  const caret=document.createElement("span");
+  caret.className="char-caret";
+
+  // RTL Arabic -> caret before the current glyph = its visual right edge.
+  caret.style.left=(r.right-wr.left-1)+"px";
+  caret.style.top=(r.top-wr.top-1)+"px";
+  caret.style.height=Math.max(24,r.height+2)+"px";
+  w.appendChild(caret);
+}
+
+$("durations").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-sec]");
+  if(!b) return;
+  duration=Number(b.dataset.sec);
+  document.querySelectorAll("#durations button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  reset();
+});
+$("reset").addEventListener("click",reset);
+$("newText").addEventListener("click",reset);
+
+$("input").addEventListener("input",()=>{
+  const v=$("input").value;
+  if(!running && !finished && v.length) start();
+  updateStats(v);
+  render();
+  if(v.length>=text.length && !finished) finish();
+});
+$("input").addEventListener("keydown",e=>{
+  if(e.key==="Tab") e.preventDefault();
+});
+window.addEventListener("resize",()=>render());
+
+pickText();
+reset();
+</script>
+</body>
+</html>
