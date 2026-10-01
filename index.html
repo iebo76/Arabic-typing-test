@@ -728,7 +728,7 @@ if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>render(
 
 
 /* ===== حفظ النتائج والرسوم البيانية ===== */
-const HKEY="arabicTypingHistory_v1";
+const HKEY="arabicTypingHistory_v1", OKEY="arabicTypingOwner_v1";
 function loadHistory(){
   try{ const a=JSON.parse(localStorage.getItem(HKEY)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; }
 }
@@ -859,14 +859,21 @@ window.authUI=function(st){
   renderAuth();
   if(st.refresh && $("pgOverlay").classList.contains("open")) renderProgress();
 };
-window.mergeHistory=function(extra){
+window.mergeHistory=function(extra,uid){
   const map=new Map();
-  loadHistory().concat(Array.isArray(extra)?extra:[]).forEach(d=>{
+  let owner=null; try{ owner=localStorage.getItem(OKEY); }catch(e){}
+  // السجل المحلي يخص حسابا آخر؟ نتجاهله ولا ندمجه مع هذا الحساب
+  const base=(owner && uid && owner!==uid)?[]:loadHistory();
+  base.concat(Array.isArray(extra)?extra:[]).forEach(d=>{
     if(d && typeof d.t==="number" && isFinite(d.w) && isFinite(d.a)) map.set(d.t,{t:d.t,w:d.w,a:d.a,d:d.d||60});
   });
   const all=[...map.values()].sort((x,y)=>x.t-y.t).slice(-200);
-  try{ localStorage.setItem(HKEY,JSON.stringify(all)); }catch(e){}
+  try{ localStorage.setItem(HKEY,JSON.stringify(all)); if(uid) localStorage.setItem(OKEY,uid); }catch(e){}
   return all;
+};
+window.clearLocalHistory=function(){
+  try{ localStorage.removeItem(HKEY); localStorage.removeItem(OKEY); }catch(e){}
+  renderProgress();
 };
 $("pgSign").addEventListener("click",()=>{
   if(authState.user){ if(window.cloudSignOut) window.cloudSignOut(); return; }
@@ -910,7 +917,7 @@ async function sync(){
     ui({status:"busy",msg:"جاري المزامنة..."});
     const snap=await getDoc(ref());
     const cloud=snap.exists()&&Array.isArray(snap.data().history)?snap.data().history:[];
-    const merged=window.mergeHistory(cloud);
+    const merged=window.mergeHistory(cloud,user.uid);
     await setDoc(ref(),{history:merged,updatedAt:Date.now()},{merge:true});
     ui({status:"",msg:"تمت المزامنة ✓",refresh:true});
   }catch(e){ ui({status:"",msg:errMsg(e)}); }
@@ -924,7 +931,11 @@ window.cloudSignIn=async()=>{
   try{ ui({status:"busy",msg:"جاري فتح نافذة Google..."}); await signInWithPopup(auth,new GoogleAuthProvider()); }
   catch(e){ ui({status:"",msg:errMsg(e)}); }
 };
-window.cloudSignOut=()=>signOut(auth);
+window.cloudSignOut=async()=>{
+  try{ await signOut(auth); }catch(e){ ui({msg:errMsg(e)}); return; }
+  if(window.clearLocalHistory) window.clearLocalHistory(); // لا يبقى سجل هذا الحساب على الجهاز
+  ui({user:null,status:"",msg:""});
+};
 window.cloudPush=async e=>{
   if(!user) return;
   try{ await setDoc(ref(),{history:arrayUnion(e),updatedAt:Date.now()},{merge:true}); ui({msg:"تم حفظ نتيجتك ✓"}); }
