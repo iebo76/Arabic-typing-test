@@ -286,6 +286,21 @@ button.primary{border:0;color:#06111a;background:linear-gradient(135deg,var(--gr
 .pg-acct-info small{display:block;color:var(--muted);font-size:11px}
 .pg-acct button{flex:none;font-size:13px;padding:8px 13px}
 button:disabled{opacity:.55;cursor:default;transform:none}
+#wlOverlay{z-index:1001}
+.wl-modal{width:min(430px,100%)}
+.wl-body{padding:30px 24px 24px;display:grid;gap:14px;text-align:center;justify-items:stretch}
+.wl-body .logo{margin:0 auto;width:60px;height:60px;border-radius:19px;font-size:30px}
+.wl-body h2{margin:0;font-size:22px;font-weight:800}
+.wl-body p{margin:0;color:#b8c6da;font-size:14px;line-height:1.9}
+.wl-body button.primary{padding:13px 16px;font-size:15px}
+.wl-msg{min-height:20px;font-size:12.5px;color:#fda4af}
+.wl-skip{border:0!important;background:transparent!important;color:var(--muted)!important;text-decoration:underline;font-size:13px;padding:8px!important}
+.pg-overlay.open .wl-item{animation:pgRise .6s cubic-bezier(.2,.8,.2,1) both}
+.pg-overlay.open .wl-item:nth-child(2){animation-delay:.08s}.pg-overlay.open .wl-item:nth-child(3){animation-delay:.16s}
+.pg-overlay.open .wl-item:nth-child(4){animation-delay:.22s}.pg-overlay.open .wl-item:nth-child(5){animation-delay:.28s}.pg-overlay.open .wl-item:nth-child(6){animation-delay:.36s}
+.pg-overlay.open .wl-body .logo{animation:pgRise .6s cubic-bezier(.2,.8,.2,1) both,pgFloat 3s 1s ease-in-out infinite}
+.toast{position:fixed;left:50%;bottom:24px;z-index:1100;transform:translate(-50%,30px);opacity:0;pointer-events:none;max-width:calc(100% - 32px);text-align:center;padding:11px 18px;border-radius:14px;background:#10192e;border:1px solid rgba(167,139,250,.45);color:#fff;font-size:14px;box-shadow:0 14px 40px rgba(0,0,0,.5);transition:opacity .35s,transform .35s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-width:600px){
   .pg-acct{flex-wrap:wrap}.pg-acct button{width:100%}
   .pg-overlay{align-items:flex-end;padding:0}
@@ -360,6 +375,20 @@ button:disabled{opacity:.55;cursor:default;transform:none}
 
   <div class="footer">النصوص أصلية ومصممة للتدريب على الكتابة العربية.</div>
 </main>
+
+<div class="pg-overlay" id="wlOverlay" aria-hidden="true">
+  <div class="pg-modal wl-modal" role="dialog" aria-modal="true" aria-labelledby="wlTitle">
+    <div class="wl-body">
+      <div class="logo wl-item">ع</div>
+      <h2 id="wlTitle" class="wl-item">أهلاً بك 👋</h2>
+      <p class="wl-item">سجّل الدخول بحساب Google حتى يُحفظ تقدمك وتشوفه من أي جهاز. وتكدر تتجاهل وتكمل بدون حساب.</p>
+      <div class="wl-msg wl-item" id="wlMsg"></div>
+      <button id="wlSign" class="primary wl-item">الدخول بـ Google</button>
+      <button id="wlSkip" class="wl-skip wl-item">تجاهل والمتابعة بدون تسجيل</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
 
 <div class="pg-overlay" id="pgOverlay" aria-hidden="true">
   <div class="pg-modal" role="dialog" aria-modal="true" aria-labelledby="pgTitle">
@@ -854,11 +883,51 @@ function renderAuth(){
   btn.disabled=authState.status==="busy";
   $("pgNote").textContent=u?"يتزامن تقدمك مع حسابك تلقائيا.":"بدون حساب، يُحفظ التقدم على هذا الجهاز فقط.";
 }
+const SKIPKEY="arabicTypingSkipLogin_v1", SKIP_DAYS=7;
+let welcomeDone=false;
+function recentlySkipped(){
+  try{ const t=Number(localStorage.getItem(SKIPKEY)); return !!t && Date.now()-t<SKIP_DAYS*864e5; }catch(e){ return false; }
+}
+function toast(txt){
+  const t=$("toast"); t.textContent=txt; t.classList.add("show");
+  clearTimeout(toast.id); toast.id=setTimeout(()=>t.classList.remove("show"),3400);
+}
+function renderWelcome(){
+  $("wlMsg").textContent=authState.user?"":(authState.msg||"");
+  $("wlSign").disabled=authState.status==="busy";
+}
+function openWelcome(){
+  const ov=$("wlOverlay"); renderWelcome();
+  ov.setAttribute("aria-hidden","false"); document.body.style.overflow="hidden";
+  requestAnimationFrame(()=>{ ov.classList.add("open"); try{ $("wlSign").focus({preventScroll:true}); }catch(e){} });
+}
+function closeWelcome(skipped){
+  const ov=$("wlOverlay");
+  if(!ov.classList.contains("open")) return;
+  ov.classList.remove("open"); ov.setAttribute("aria-hidden","true"); document.body.style.overflow="";
+  if(skipped){ try{ localStorage.setItem(SKIPKEY,String(Date.now())); }catch(e){} }
+}
 window.authUI=function(st){
   authState=Object.assign({},authState,st);
-  renderAuth();
+  renderAuth(); renderWelcome();
   if(st.refresh && $("pgOverlay").classList.contains("open")) renderProgress();
+  // أول رد من Firebase: إذا ما اكو حساب مسجّل ولم يتجاهل المستخدم مؤخرا، نعرض الترحيب
+  if(Object.prototype.hasOwnProperty.call(st,"user") && !welcomeDone){
+    welcomeDone=true;
+    if(!st.user && !recentlySkipped()) setTimeout(openWelcome,300);
+  }
+  if(st.user && $("wlOverlay").classList.contains("open")){
+    closeWelcome(false);
+    toast("أهلاً "+(st.user.name||"")+" 👋 تقدمك يتزامن مع حسابك الآن");
+  }
 };
+$("wlSign").addEventListener("click",()=>{
+  if(!window.cloudSignIn){ window.authUI({msg:"خدمة الحساب غير متاحة الآن. تأكد من الإنترنت أو تابع بدون تسجيل."}); return; }
+  window.cloudSignIn();
+});
+$("wlSkip").addEventListener("click",()=>closeWelcome(true));
+$("wlOverlay").addEventListener("click",e=>{ if(e.target===$("wlOverlay")) closeWelcome(true); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeWelcome(true); });
 window.mergeHistory=function(extra,uid){
   const map=new Map();
   let owner=null; try{ owner=localStorage.getItem(OKEY); }catch(e){}
