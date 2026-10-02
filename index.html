@@ -39,26 +39,27 @@ body:before,body:after{
 body:before{background:#2563eb;top:-15vw;right:-10vw}
 body:after{background:#d946ef;bottom:-18vw;left:-12vw}
 
-.app{width:min(1240px,calc(100% - 28px));margin:0 auto;padding:28px 0 46px}
+.app{width:min(1100px,calc(100% - 28px));margin:0 auto;padding:12px 0 24px}
 .header{
   display:flex;align-items:center;justify-content:space-between;gap:18px;
-  margin-bottom:22px;
+  margin-bottom:12px;
 }
 .brand{display:flex;align-items:center;gap:13px}
 .logo{
-  width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
+  width:40px;height:40px;border-radius:13px;display:grid;place-items:center;
   background:linear-gradient(135deg,var(--cyan),var(--purple));
-  color:#07111d;font-size:24px;font-weight:800;box-shadow:0 10px 32px rgba(34,211,238,.22)
+  color:#07111d;font-size:20px;font-weight:800;box-shadow:0 10px 32px rgba(34,211,238,.22)
 }
-h1{font-size:clamp(20px,3vw,30px);margin:0;font-weight:800;letter-spacing:-.5px}
-.subtitle{color:var(--muted);font-size:13px;margin-top:3px}
+h1{font-size:clamp(17px,2.3vw,24px);margin:0;font-weight:800;letter-spacing:-.5px}
+.subtitle{color:var(--muted);font-size:12px;margin-top:1px}
 
 .card{
   background:linear-gradient(145deg,rgba(20,28,48,.92),rgba(10,15,28,.91));
   border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);
   backdrop-filter:blur(16px);overflow:hidden;
 }
-.toolbar{padding:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;border-bottom:1px solid var(--line)}
+.toolbar{padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;border-bottom:1px solid var(--line)}
+.toolbar button{padding:7px 13px;font-size:13px;border-radius:11px}
 .group{display:flex;gap:8px;flex-wrap:wrap}
 .label{font-size:12px;color:var(--muted);align-self:center;margin-left:3px}
 button{
@@ -70,42 +71,39 @@ button.active{color:#07111d;border-color:transparent;background:linear-gradient(
 button.primary{border:0;color:#06111a;background:linear-gradient(135deg,var(--green),var(--cyan));font-weight:800}
 .spacer{flex:1}
 
-.stats{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px;
-}
+.stats{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .stat{
-  min-height:92px;padding:15px 16px;border:1px solid var(--line);border-radius:18px;
-  background:rgba(255,255,255,.025);position:relative;overflow:hidden;
+  display:flex;align-items:baseline;gap:7px;padding:5px 12px;
+  border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03);
 }
-.stat:before{content:"";position:absolute;right:0;top:0;width:38px;height:38px;border-radius:0 18px 0 30px;opacity:.16}
-.stat:nth-child(1):before{background:var(--cyan)}
-.stat:nth-child(2):before{background:var(--purple)}
-.stat:nth-child(3):before{background:var(--pink)}
-.stat:nth-child(4):before{background:var(--green)}
-.stat .k{color:var(--muted);font-size:12px}
-.stat .v{font-size:25px;font-weight:800;margin-top:4px;direction:ltr;text-align:right;white-space:nowrap}
-.stat .v small{font-size:13px;color:var(--muted);font-weight:600}
+.stat:nth-child(1){border-color:rgba(34,211,238,.28)}
+.stat:nth-child(2){border-color:rgba(167,139,250,.28)}
+.stat:nth-child(3){border-color:rgba(244,114,182,.28)}
+.stat:nth-child(4){border-color:rgba(52,211,153,.28)}
+.stat .k{color:var(--muted);font-size:11px}
+.stat .v{font-size:17px;font-weight:800;direction:ltr;text-align:right;white-space:nowrap}
+.stat .v small{font-size:10px;color:var(--muted);font-weight:600}
 
-.progress-wrap{padding:0 16px 4px}
+.progress-wrap{padding:10px 14px 0}
 .progress{height:7px;border-radius:99px;background:#121a2b;overflow:hidden}
 .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple),var(--pink));border-radius:inherit;transition:width .15s linear}
 
-.text-head{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 9px;color:var(--muted);font-size:12px}
+.text-head{display:flex;align-items:center;justify-content:space-between;padding:9px 16px 6px;color:var(--muted);font-size:12px}
 #wordCount{direction:rtl}
 
-.text-wrap{position:relative;margin:0 16px 16px}
+.text-wrap{position:relative;margin:0 14px 10px}
 .textbox{
   position:relative;margin:0;padding:0;
   border:1px solid rgba(148,163,184,.17);border-radius:20px;
   background:#080e1c;
-  font-size:clamp(20px,2.25vw,29px);
+  font-size:clamp(18px,2vw,25px);
   line-height:2.05;
   font-weight:500;
   text-align:right;direction:rtl;
   color:var(--dim);
   overflow:hidden;
   user-select:none;-webkit-user-select:none;
-  height:250px;
+  height:104px;
   transition:border-color .18s, box-shadow .18s;
 }
 #textInner{
@@ -181,7 +179,7 @@ button.primary{border:0;color:#06111a;background:linear-gradient(135deg,var(--gr
 .hint{font-size:12px;color:var(--muted)}
 
 .result{
-  display:none;margin:0 16px 16px;padding:18px;border-radius:18px;
+  display:none;margin:0 14px 12px;padding:10px;border-radius:16px;
   background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(167,139,250,.09));
   border:1px solid var(--line);
 }
@@ -194,29 +192,85 @@ button.primary{border:0;color:#06111a;background:linear-gradient(135deg,var(--gr
 .footer{text-align:center;color:#516078;font-size:11px;margin-top:15px}
 
 @media(max-width:800px){
-  .stats{grid-template-columns:repeat(4,1fr);gap:6px;padding:10px}
-  .stat{min-height:64px;padding:8px 9px;border-radius:14px}
-  .stat .k{font-size:10px}
-  .stat .v{font-size:18px}
-  .stat .v small{font-size:9px}
   .result-grid{grid-template-columns:repeat(2,1fr)}
-  .app{width:min(100% - 16px,1240px);padding-top:12px}
-  .header{margin-bottom:12px}
-  .toolbar{padding:12px}
+  .app{width:min(100% - 16px,1100px);padding-top:10px}
+  .header{margin-bottom:10px}
+  .toolbar{padding:10px}
+  .stats{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .stat{flex-direction:column;align-items:flex-start;gap:0;padding:5px 8px;border-radius:11px}
+  .stat .v{font-size:16px}
   .text-wrap{margin:0 10px 10px}
   #textInner{padding:0 17px}
-  .input-zone{padding:0 10px 10px}
-  .text-head{padding:14px 12px 8px}
+  .text-head{padding:8px 12px 6px}
 }
 @media(max-width:470px){
   .brand .subtitle{display:none}
-  .logo{width:42px;height:42px}
-  .stats{gap:6px;padding:10px}
-  .stat{min-height:62px;padding:8px}
-  .stat .v{font-size:17px}
-  button{padding:8px 11px}
-  .textbox{font-size:20px;line-height:2.05}
+  .logo{width:36px;height:36px}
+  .toolbar button{padding:6px 10px}
+  .textbox{font-size:18px;line-height:2.05}
 }
+
+/* ===== دليل مواضع الأصابع ===== */
+.kb-guide{max-width:780px;margin:0 auto 14px;padding:0 14px;container-type:inline-size}
+.kb-stage{
+  --kh:clamp(22px,5vw,40px);
+  position:relative;direction:ltr;overflow:hidden;
+  background:linear-gradient(#f7f8fa,#eceef2);border-radius:22px;
+  padding:10px 12px calc(var(--kh)*2.6);
+  box-shadow:0 14px 40px rgba(0,0,0,.35);
+}
+@supports (width:1cqw){.kb-stage{--kh:min(5.1cqw,40px)}}
+.kb-info{
+  min-height:30px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+  margin-bottom:8px;color:#334155;font-size:14px;font-weight:700;direction:rtl;text-align:center;
+}
+.kb-info b{color:#0f172a}
+.kb-chip{
+  display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 9px;border-radius:10px;
+  background:var(--fc,#cbd5e1);color:#0f172a;font-size:18px;font-weight:800;
+  box-shadow:0 2px 0 rgba(0,0,0,.18);animation:kbPop .3s ease both;
+}
+.kb-board{background:#d6d9de;border:1px solid #c3c7cd;border-radius:calc(var(--kh)*.55);padding:calc(var(--kh)*.18)}
+.kb-row{display:grid;grid-template-columns:repeat(60,1fr);margin-bottom:calc(var(--kh)*.1)}
+.kb-row:last-child{margin-bottom:0}
+.kb-key{
+  position:relative;margin:0 calc(var(--kh)*.05);height:var(--kh);border-radius:calc(var(--kh)*.16);
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;background:color-mix(in srgb,var(--fc,#fff) 22%,#fff);
+  color:#2d3340;font-weight:800;font-size:calc(var(--kh)*.47);
+  border-bottom:2px solid rgba(0,0,0,.16);box-shadow:0 1px 1px rgba(0,0,0,.08);
+  transition:background .2s,color .2s,transform .15s;
+}
+.kb-key.fn{font-size:calc(var(--kh)*.27);color:#5b6472;font-weight:700;background:#eceef1;background:color-mix(in srgb,var(--fc,#eceef1) 14%,#eceef1)}
+.kb-key.dim{opacity:.6;background:#eceef1}
+.kb-lt{position:absolute;top:calc(var(--kh)*.07);left:calc(var(--kh)*.1);font-size:calc(var(--kh)*.22);font-weight:700;color:#6b7482;opacity:.8}
+.kb-key.home:after{content:"";position:absolute;bottom:calc(var(--kh)*.12);left:50%;width:30%;height:2px;border-radius:2px;background:currentColor;opacity:.4;transform:translateX(-50%)}
+.kb-key.bump:after{opacity:.85;height:3px}
+.kb-key.on{
+  background:#1d4ed8;color:#fff;transform:translateY(1px);z-index:2;
+  border-bottom-color:#1e3a8a;animation:kbPulse 1.1s ease-out infinite;
+}
+.kb-key.on .kb-lt{color:#bfdbfe}
+.f-lp{--fc:#f472b6}.f-lr{--fc:#fb923c}.f-lm{--fc:#facc15}.f-li{--fc:#34d399}
+.f-ri{--fc:#22d3ee}.f-rm{--fc:#60a5fa}.f-rr{--fc:#a78bfa}.f-rp{--fc:#e879f9}.f-th{--fc:#94a3b8}
+.kb-hands{
+  position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none;z-index:5;opacity:.5;
+  -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - var(--kh)*2.4),transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 calc(100% - var(--kh)*2.4),transparent 100%);
+}
+.kb-hands:not(.ready) *{transition:none!important}
+.kb-finger,.kb-palm{position:absolute;background:#9c6f66;border-radius:999px}
+.kb-finger{
+  transform-origin:50% 100%;
+  transition:top .32s cubic-bezier(.3,.8,.3,1),left .32s cubic-bezier(.3,.8,.3,1),height .32s cubic-bezier(.3,.8,.3,1),transform .32s cubic-bezier(.3,.8,.3,1),background .2s;
+}
+.kb-finger.on{background:#0ea5e9;animation:kbGlow 1.1s ease-out infinite}
+.kb-palm{border-radius:46%;transition:left .32s ease,top .32s ease}
+@keyframes kbPulse{0%{box-shadow:0 0 0 0 rgba(37,99,235,.7)}100%{box-shadow:0 0 0 calc(var(--kh)*.38) rgba(37,99,235,0)}}
+@keyframes kbGlow{0%{box-shadow:0 0 0 0 rgba(14,165,233,.8)}100%{box-shadow:0 0 0 12px rgba(14,165,233,0)}}
+@keyframes kbPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@media(max-width:600px){.kb-lt{display:none}.kb-guide{padding:0 10px}.kb-info{font-size:12.5px}}
+@media(prefers-reduced-motion:reduce){.kb-key,.kb-finger,.kb-chip,.kb-palm{animation:none!important;transition-duration:.01s!important}}
 
 /* ===== زر وصفحة التقدم ===== */
 .progress-btn{
@@ -335,22 +389,21 @@ button:disabled{opacity:.55;cursor:default;transform:none}
         <button data-sec="180">3 دقائق</button>
         <button data-sec="300">5 دقائق</button>
       </div>
+      <div class="stats">
+        <div class="stat"><div class="k">الوقت</div><div class="v" id="time">01:00</div></div>
+        <div class="stat"><div class="k">السرعة</div><div class="v" id="wpm">0 <small>WPM</small></div></div>
+        <div class="stat"><div class="k">الدقة</div><div class="v" id="accuracy">100%</div></div>
+        <div class="stat"><div class="k">الأخطاء</div><div class="v" id="errors">0</div></div>
+      </div>
       <span class="spacer"></span>
       <button id="progressBtn" class="progress-btn" aria-haspopup="dialog">📈 تقدّمي</button>
       <button id="reset">إعادة الاختبار</button>
     </div>
 
-    <div class="stats">
-      <div class="stat"><div class="k">الوقت المتبقي</div><div class="v" id="time">01:00</div></div>
-      <div class="stat"><div class="k">السرعة الحالية</div><div class="v" id="wpm">0 <small>WPM</small></div></div>
-      <div class="stat"><div class="k">الدقة</div><div class="v" id="accuracy">100%</div></div>
-      <div class="stat"><div class="k">الأخطاء</div><div class="v" id="errors">0</div></div>
-    </div>
-
     <div class="progress-wrap"><div class="progress"><i id="progress"></i></div></div>
 
     <div class="text-head">
-      <span>النص</span><span id="wordCount">0 كلمة</span>
+      <span class="hint">اضغط على النص واكتب مباشرة. يبدأ المؤقت مع أول حرف، والخطأ يظهر فورًا.</span><span id="wordCount">0 كلمة</span>
     </div>
 
     <div class="text-wrap" id="textWrap">
@@ -359,9 +412,6 @@ button:disabled{opacity:.55;cursor:default;transform:none}
       <textarea id="input" lang="ar" dir="rtl" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"
         aria-label="اكتب النص هنا" enterkeyhint="done"></textarea>
     </div>
-    <div class="input-zone">
-      <div class="hint">اضغط على النص واكتب مباشرة. يبدأ المؤقت مع أول حرف، والخطأ يظهر فورًا.</div>
-    </div>
 
     <div id="result" class="result">
       <div class="result-grid">
@@ -369,6 +419,14 @@ button:disabled{opacity:.55;cursor:default;transform:none}
         <div class="result-item"><b id="rCpm">0</b><span>CPM</span></div>
         <div class="result-item"><b id="rAcc">0%</b><span>الدقة</span></div>
         <div class="result-item"><b id="rErr">0</b><span>الأخطاء</span></div>
+      </div>
+    </div>
+
+    <div class="kb-guide" id="kbGuide" aria-label="دليل مواضع الأصابع على الكيبورد">
+      <div class="kb-stage" id="kbStage">
+        <div class="kb-info" id="kbInfo"></div>
+        <div class="kb-board" id="kbBoard"></div>
+        <div class="kb-hands" id="kbHands"></div>
       </div>
     </div>
   </section>
@@ -627,6 +685,7 @@ function render(){
 
   placeCaret(v.length);
   fitAndScroll(v.length);
+  updateGuide(v.length);
 }
 /* نافذة نص ثابتة الارتفاع (4-5 أسطر) تتحرك داخليًا مع المؤشر بدل تمرير الصفحة كلها */
 function fitAndScroll(vlen){
@@ -639,11 +698,13 @@ function fitAndScroll(vlen){
   let pitch=0;
   for(const w of words){ if(w.offsetTop>firstTop+2){ pitch=w.offsetTop-firstTop; break; } }
   if(!pitch) pitch=parseFloat(getComputedStyle(words[0]).lineHeight)||48;
-  const rows=window.innerWidth<=800?4:5;
+  const rows=2; // سطران فقط
   const boxH=Math.round(padT+padB+rows*pitch);
   box.style.height=(boxH+2)+"px"; // +2 للحدود
   const cur=wordAt(Math.min(vlen,text.length-1))||words[0];
-  let off=Math.max(0,cur.offsetTop-firstTop-pitch);
+  // السطر الحالي دائمًا في أعلى النافذة: عند إنهاء سطر يظهر السطر الذي بعده مع الذي يليه
+  const curRow=Math.max(0,Math.round((cur.offsetTop-firstTop)/pitch));
+  let off=curRow*pitch;
   off=Math.min(off,Math.max(0,inner.offsetHeight-boxH));
   inner.style.transform="translateY(-"+off+"px)";
 }
@@ -754,6 +815,139 @@ if(window.visualViewport){
   });
 }
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>render());
+
+
+/* ===== دليل مواضع الأصابع ===== */
+const FZ={lp:"`1qaz",lr:"2wsx",lm:"3edc",li:"45rtfgvb",ri:"67yuhjnm",rm:"8ik,",rr:"9ol.",rp:"0-=p[]\\;'/"};
+const FNAME={lp:"الخنصر الأيسر",lr:"البنصر الأيسر",lm:"الوسطى اليسرى",li:"السبابة اليسرى",
+  ri:"السبابة اليمنى",rm:"الوسطى اليمنى",rr:"البنصر الأيمن",rp:"الخنصر الأيمن",thL:"الإبهام",thR:"الإبهام"};
+function fingerOf(c){ for(const id in FZ) if(FZ[id].includes(c)) return id; return null; }
+function kd(lat,ar){ return {k:lat,a:ar,c:4,f:fingerOf(lat)}; }
+const KROWS=[
+  [..."`1234567890-=".split("").map((c,i)=>kd(c,"ذ1234567890-="[i])),{k:"bksp",l:"⌫",c:8,f:"rp",fn:1}],
+  [{k:"tab",l:"Tab",c:6,f:"lp",fn:1},..."qwertyuiop[]".split("").map((c,i)=>kd(c,"ضصثقفغعهخحجد"[i])),{k:"\\",a:"\\",c:6,f:"rp"}],
+  [{k:"caps",l:"Caps",c:7,f:"lp",fn:1},..."asdfghjkl;'".split("").map((c,i)=>kd(c,"شسيبلاتنمكط"[i])),{k:"enter",l:"Enter ↵",c:9,f:"rp",fn:1}],
+  [{k:"shiftL",l:"⇧ Shift",c:9,f:"lp",fn:1},..."zxcvbnm,./".split("").map((c,i)=>kd(c,["ئ","ء","ؤ","ر","لا","ى","ة","و","ز","ظ"][i])),{k:"shiftR",l:"Shift ⇧",c:11,f:"rp",fn:1}],
+  [{k:"ctrlL",l:"Ctrl",c:6,fn:1,dim:1},{k:"altL",l:"Alt",c:6,fn:1,dim:1},{k:"space",l:"مسافة",c:36,f:"th",fn:1},{k:"altR",l:"Alt",c:6,fn:1,dim:1},{k:"ctrlR",l:"Ctrl",c:6,fn:1,dim:1}]
+];
+// خريطة الحرف -> المفتاح (تخطيط Arabic 101 القياسي)
+const KMAP={};
+KROWS.forEach(r=>r.forEach(d=>{ if(d.a && d.a.length===1 && !(d.a in KMAP)) KMAP[d.a]={k:d.k,shift:false}; }));
+const KSHIFT={"أ":"h","إ":"y","آ":"n","ّ":"`","ٍ":"s","ً":"w","َ":"q","ُ":"e","ٌ":"r","ِ":"a","؟":"/","،":",",".":".",":":";"};
+Object.keys(KSHIFT).forEach(c=>{ KMAP[c]={k:KSHIFT[c],shift:true}; });
+KMAP[" "]={k:"space",shift:false};
+
+const KB={ready:false,keys:{},fingers:{},palms:{},fOfKey:{},cur:null,lastCh:undefined};
+
+function buildGuide(){
+  const board=$("kbBoard"), hands=$("kbHands");
+  if(!board||!hands) return;
+  KROWS.forEach(row=>{
+    const r=document.createElement("div"); r.className="kb-row";
+    row.forEach(d=>{
+      const k=document.createElement("div");
+      k.className="kb-key"+(d.f?" f-"+d.f:"")+(d.fn?" fn":"")+(d.dim?" dim":"");
+      k.style.gridColumn="span "+d.c;
+      if(d.l){ k.textContent=d.l; }
+      else{
+        k.textContent=d.a;
+        if(d.a!==d.k){ const lt=document.createElement("span"); lt.className="kb-lt"; lt.textContent=d.k.toUpperCase(); k.appendChild(lt); }
+      }
+      if("asdfjkl;".includes(d.k) && d.k.length===1) k.classList.add("home");
+      if(d.k==="f"||d.k==="j") k.classList.add("bump");
+      KB.keys[d.k]=k; KB.fOfKey[d.k]=d.f||null;
+      r.appendChild(k);
+    });
+    board.appendChild(r);
+  });
+  ["palmL","palmR"].forEach(id=>{ const p=document.createElement("div"); p.className="kb-palm"; hands.appendChild(p); KB.palms[id]=p; });
+  ["lp","lr","lm","li","ri","rm","rr","rp","thL","thR"].forEach(id=>{ const f=document.createElement("div"); f.className="kb-finger"; hands.appendChild(f); KB.fingers[id]=f; });
+  // الضغط على الدليل لا يسحب التركيز من حقل الكتابة
+  $("kbGuide").addEventListener("mousedown",e=>e.preventDefault());
+  KB.ready=true;
+}
+function kbEl(tag,cls,txt){ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; }
+function targetFor(ch){
+  const m=KMAP[ch]; if(!m) return null;
+  const f=KB.fOfKey[m.k];
+  const t={k:m.k,shift:m.shift,f:f};
+  if(f==="th") t.f="thR";
+  if(m.shift){ const left=f && f[0]==="l"; t.sk=left?"shiftR":"shiftL"; t.sf=left?"rp":"lp"; }
+  return t;
+}
+function paintTarget(ch){
+  Object.values(KB.keys).forEach(k=>k.classList.remove("on"));
+  Object.values(KB.fingers).forEach(f=>f.classList.remove("on"));
+  const info=$("kbInfo"); info.textContent="";
+  const t=KB.cur;
+  if(ch==null){ info.appendChild(kbEl("span",null,finished?"أحسنت! أكملت النص 🎉":"")); return; }
+  const shown=(ch===" ")?"مسافة":(/[\u064B-\u065F]/.test(ch)?"\u25CC"+ch:ch);
+  const chip=kbEl("span","kb-chip",shown);
+  if(!t){ info.append(chip,kbEl("span",null,"اكتب هذا الحرف كما هو")); return; }
+  KB.keys[t.k].classList.add("on");
+  KB.fingers[t.f].classList.add("on");
+  const fk=KB.fOfKey[t.k]; if(fk) chip.className+=" f-"+fk;
+  if(t.shift){
+    KB.keys[t.sk].classList.add("on"); KB.fingers[t.sf].classList.add("on");
+    const sc=kbEl("span","kb-chip","Shift"); sc.className+=" f-"+t.sf;
+    info.append(kbEl("span",null,"اضغط"),sc,kbEl("span",null,"بـ"),kbEl("b",null,FNAME[t.sf]),kbEl("span",null,"مع"),chip,kbEl("span",null,"بـ"),kbEl("b",null,FNAME[t.f]));
+  }else{
+    info.append(kbEl("span",null,"اضغط"),chip,kbEl("span",null,"بـ"),kbEl("b",null,FNAME[t.f]));
+  }
+}
+function placeFinger(el,bx,by,tx,ty,w){
+  const dx=tx-bx, dy=ty-by, r=w/2, len=Math.hypot(dx,dy)+r;
+  const ang=Math.atan2(dx,-dy)*180/Math.PI;   // الزاوية من الاتجاه الأعلى
+  el.style.width=w+"px"; el.style.left=(bx-r)+"px";
+  el.style.top=(by-len)+"px"; el.style.height=len+"px";
+  el.style.transform="rotate("+ang+"deg)";
+}
+function applyGuide(){
+  if(!KB.ready) return;
+  const stage=$("kbStage"), sr=stage.getBoundingClientRect();
+  if(!sr.width) return;
+  const P=el=>{ const r=el.getBoundingClientRect(); return {x:r.left-sr.left+r.width/2,y:r.top-sr.top+r.height/2,w:r.width}; };
+  const bottom=$("kbBoard").getBoundingClientRect().bottom-sr.top;
+  const u=P(KB.keys.a).w, sp=P(KB.keys.space), t=KB.cur;
+  const act={};
+  if(t){ act[t.f]=t.k; if(t.shift) act[t.sf]=t.sk; }
+  const HANDS=[
+    {side:-1,ids:["lp","lr","lm","li"],home:["a","s","d","f"],th:"thL",palm:"palmL"},
+    {side:1, ids:["ri","rm","rr","rp"],home:["j","k","l",";"],th:"thR",palm:"palmR"}
+  ];
+  HANDS.forEach(h=>{
+    const homes=h.home.map(k=>P(KB.keys[k]));
+    const mx=homes.reduce((a,p)=>a+p.x,0)/4;
+    const pcx=mx-h.side*0.35*u, by0=bottom-0.1*u;
+    // اليد كلها تميل قليلا نحو المفتاح المطلوب (حركة طبيعية)
+    let ox=0, oy=0;
+    h.ids.forEach((id,i)=>{ if(act[id]){ const T=P(KB.keys[act[id]]); ox=(T.x-homes[i].x)*0.28; oy=(T.y-homes[i].y)*0.35; } });
+    const bxs=[];
+    h.ids.forEach((id,i)=>{
+      const bx=pcx+(homes[i].x-pcx)*0.55+ox, by=by0+oy; bxs.push(bx);
+      const T=act[id]?P(KB.keys[act[id]]):homes[i];
+      placeFinger(KB.fingers[id],bx,by,T.x,T.y,u*0.8);
+    });
+    // الإبهام: يرتاح على شريط المسافة
+    const tipX=sp.x+h.side*0.13*sp.w;
+    placeFinger(KB.fingers[h.th],pcx-h.side*1.05*u,bottom+0.9*u,tipX,sp.y,u*0.95);
+    const pw=(Math.max(...bxs)-Math.min(...bxs))+1.6*u, pl=pcx+ox-pw/2;
+    const pe=KB.palms[h.palm];
+    pe.style.width=pw+"px"; pe.style.height=(3*u)+"px"; pe.style.left=pl+"px"; pe.style.top=(by0+oy-0.5*u)+"px";
+  });
+  if(!KB.shown){ KB.shown=true; requestAnimationFrame(()=>requestAnimationFrame(()=>$("kbHands").classList.add("ready"))); }
+}
+function updateGuide(vlen){
+  if(!KB.ready) return;
+  const ch=(!finished && vlen<text.length)?text[vlen]:null;
+  if(KB.lastCh!==ch){
+    KB.lastCh=ch;
+    KB.cur=ch==null?null:targetFor(ch);
+    paintTarget(ch);
+  }
+  applyGuide();
+}
+buildGuide();
 
 
 /* ===== حفظ النتائج والرسوم البيانية ===== */
